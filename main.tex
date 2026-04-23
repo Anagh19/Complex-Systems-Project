@@ -4,29 +4,32 @@
 \usepackage{booktabs} %table formatting
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}} % table formatting
 \addbibresource{references.bib}
-\title{DOI Working Title: The Effect of Network Organization on Diffusion of Innovation in the Healthcare Environment}
+\title{The Effect of Network Organization on Diffusion of Innovation in the Healthcare Environment}
 \author{\textit{Sydney Corum, Anagh Mishra, Seth Tumlin}}
 \date{\today}
 
 \begin{document}
 
 \maketitle
-\begin{abstract}
-    
+\begin{abstract} 
 \end{abstract}
 \section{Introduction}
-\cite{rogers_diffusion_1983} 
+\par 
+Understanding how new innovations, whether products or technological concepts, spread is critical, as diffusion models can help explain why some ideas successfully reach the target population, whereas others remain stagnant. Everett Rogers’s revolutionary book, Diffusion of Innovations, first published in 1962 was the catalyst for a burst of excitement in the diffusion studies field in complex systems \cite{rogers_diffusion_1983}. Rogers seeks to understand how different innovations spread through a system over time, networks, and social systems. Different innovations have characteristics that affect the adoption of innovation, such as cost, availability, relevance, etc. \par
+These innovations arise across diverse domains, including agriculture, consumer technology, and even public health policies. According to the framework proposed in Diffusion of Innovations, adoption unfolds through the stages of knowledge, persuasion, decision, implementation, and confirmation, each influenced by social context and communication structure \cite{rogers_diffusion_1983} . Furthermore, interactions among the numerous agents involved in disseminating an idea introduce complex dynamics that simpler analytical models cannot fully capture. Consequently, studying innovation diffusion is both challenging and intellectually enriching. The impact of innovation in the healthcare industry is especially important given the life changing impact that it has on humans.
+This study seeks to understand how innovations spread across healthcare networks that are inherently designed with some community structures, compared to those who disregard the structures. 
+
 
 \section{Background}
-The purpose of this study is to investigate how changing the social system affects the diffusion of innovation
+In Roger’s theory, the four main elements in Diffusion of Innovation are innovation, communication channels, time, and the social system. According to Rogers, “A social system is defined as a set of interrelated units that are engaged in joint problem solving to accomplish a common goal... Each unit in a social system can be distinguished from other units. All members cooperate at least to the extent of seeking to solve a common problem in order to reach a mutual goal. This sharing of a common objective binds the system together.” \cite{rogers_diffusion_1983}.
+\par The current literature in the healthcare innovation studies uses agent-based modeling systems to simulate the modern health department network interactions. For example, Borracci et al. describe a system for modeling the diffusion of innovations (DOI) that is described as an agent-based model (ABM) which seeks to demonstrate the spread of medical concepts among doctors \cite{borracci_agent-based_2018}. The authors provide a comprehensive set of parameters used to tune this model, such as proportions of adopter classes among the population, influence of peers, etc. Similarly, Orr et al. describe a systematic method of rearranging links between health departments used to simulate changes that occur to the network when geographical boundaries are given less weight in its organization \cite{orr_diffusion_2013}. However, these new links are not only made with no respect to geographical boundaries, they are made completely randomly, which may not be representative of a real-life system where health departments are encouraged to engage with their counter departments in states other than their own.
+\par Thus, the study aims to fill the gap and uncover the dynamics between the structure of the health department network and the diffusion phenomena of the health care system. In other words, how does changing the network of the social system affect the overall innovation spreading function of the system?
+This question was answered by designing and testing an ABM system developed from the field of complex systems. This system focused on interactions between state health departments in the continental United States, and their corresponding local health departments. This was intended to demonstrate and explore how a novel technology or innovation is spread throughout the system in a border-conscious network or a border-agnostic network.
 
 \section{Methods}
-
 \cite{borracci_agent-based_2018}\cite{orr_diffusion_2013}
-To study how the changing of social systems effects the spread of innovation, we designed two policy options for the network creation, a government network, and a local network.
 \subsection{Model Design}
-
-\begin{table}\centering
+\begin{table}[!htbp]\centering
 \ra{1.3}
 \begin{tabular}{@{}lr@{}}
 \toprule
@@ -36,12 +39,13 @@ Number of Agents & $2$--$500$\\
 Number of States & $1$--$48$\\
 Connection Quota & $1$--$500$\\
 Distance Threshold & $1$--$10$\\
-Diffusion Network & $[Boundary Conscious,\ Bounday Agnostic]$\\
+Diffusion Network & $[Boundary Conscious,\ Boundary Agnostic]$\\
 Global Scale Factor & $0.0$ -- $5.0$\\
 Random Seed & $0$--$1000$\\
 \bottomrule
 \end{tabular}
 \caption{Parameter Values User can set in the GUI for the model}
+\label{tab:gui-parameters}
 \end{table}
 
 
