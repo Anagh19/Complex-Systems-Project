@@ -1,7 +1,12 @@
-\documentclass[11pt, letterpaper]{article}
+\documentclass[11pt, letterpaper]{IEEEtran}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{biblatex} % For my references
-\usepackage{booktabs} %table formatting
+\usepackage{booktabs} %table formattingu
+\usepackage{amsmath}
+\usepackage{amsfonts}  % for my equations
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}} % table formatting
 \addbibresource{references.bib}
 \title{The Effect of Network Organization on Diffusion of Innovation in the Healthcare Environment}
@@ -15,30 +20,52 @@
 \end{abstract}
 \section{Introduction}
 \par 
-Understanding how new innovations, whether products or technological concepts, spread is critical, as diffusion models can help explain why some ideas successfully reach the target population, whereas others remain stagnant. Everett Rogers’s revolutionary book, Diffusion of Innovations, first published in 1962 was the catalyst for a burst of excitement in the diffusion studies field in complex systems \cite{rogers_diffusion_1983}. Rogers seeks to understand how different innovations spread through a system over time, networks, and social systems. Different innovations have characteristics that affect the adoption of innovation, such as cost, availability, relevance, etc. \par
-These innovations arise across diverse domains, including agriculture, consumer technology, and even public health policies. According to the framework proposed in Diffusion of Innovations, adoption unfolds through the stages of knowledge, persuasion, decision, implementation, and confirmation, each influenced by social context and communication structure \cite{rogers_diffusion_1983} . Furthermore, interactions among the numerous agents involved in disseminating an idea introduce complex dynamics that simpler analytical models cannot fully capture. Consequently, studying innovation diffusion is both challenging and intellectually enriching. The impact of innovation in the healthcare industry is especially important given the life changing impact that it has on humans.
+Understanding how new innovations, whether products or technological concepts, spread is critical, as diffusion models can help explain why some ideas successfully reach the target population, whereas others remain stagnant. Everett Rogers’s revolutionary book, Diffusion of Innovations, first published in 1962 was the catalyst for a burst of excitement in the diffusion studies field in complex systems \cite{rogers_diffusion_1983}. Rogers seeks to understand how different innovations spread through a system over time, networks, and social systems. 
+\par 
+Different innovations have characteristics that affect the adoption of innovation, such as cost, availability, relevance, etc. These innovations arise across diverse domains, including agriculture, consumer technology, and even public health policies. According to the framework proposed in Diffusion of Innovations, adoption unfolds through the stages of knowledge, persuasion, decision, implementation, and confirmation, each influenced by social context and communication structure \cite{rogers_diffusion_1983} . Furthermore, interactions among the numerous agents involved in disseminating an idea introduce complex dynamics that simpler analytical models cannot fully capture. Consequently, studying innovation diffusion is both challenging and intellectually enriching. The impact of innovation in the healthcare industry is especially important given the life changing impact that it has on humans.
 This study seeks to understand how innovations spread across healthcare networks that are inherently designed with some community structures, compared to those who disregard the structures. 
 
 
 \section{Background}
 In Roger’s theory, the four main elements in Diffusion of Innovation are innovation, communication channels, time, and the social system. According to Rogers, “A social system is defined as a set of interrelated units that are engaged in joint problem solving to accomplish a common goal... Each unit in a social system can be distinguished from other units. All members cooperate at least to the extent of seeking to solve a common problem in order to reach a mutual goal. This sharing of a common objective binds the system together.” \cite{rogers_diffusion_1983}.
-\par The current literature in the healthcare innovation studies uses agent-based modeling systems to simulate the modern health department network interactions. For example, Borracci et al. describe a system for modeling the diffusion of innovations (DOI) that is described as an agent-based model (ABM) which seeks to demonstrate the spread of medical concepts among doctors \cite{borracci_agent-based_2018}. The authors provide a comprehensive set of parameters used to tune this model, such as proportions of adopter classes among the population, influence of peers, etc. Similarly, Orr et al. describe a systematic method of rearranging links between health departments used to simulate changes that occur to the network when geographical boundaries are given less weight in its organization \cite{orr_diffusion_2013}. However, these new links are not only made with no respect to geographical boundaries, they are made completely randomly, which may not be representative of a real-life system where health departments are encouraged to engage with their counter departments in states other than their own.
+\par The current literature in the healthcare innovation studies uses agent-based modeling systems to simulate the modern health department network interactions. For example, Borracci et al. describe a system for modeling the diffusion of innovations that is described as an agent-based model (ABM) which seeks to demonstrate the spread of medical concepts among doctors \cite{borracci_agent-based_2018}. The authors provide a comprehensive set of parameters used to tune this model, such as proportions of adopter classes among the population, influence of peers, etc. Similarly, Orr et al. describe a systematic method of rearranging links between health departments used to simulate changes that occur to the network when geographical boundaries are given less weight in its organization \cite{orr_diffusion_2013}. However, these new links are not only made with no respect to geographical boundaries, they are made completely randomly, which may not be representative of a real-life system where health departments are encouraged to engage with their counter departments in states other than their own.
 \par Thus, the study aims to fill the gap and uncover the dynamics between the structure of the health department network and the diffusion phenomena of the health care system. In other words, how does changing the network of the social system affect the overall innovation spreading function of the system?
-This question was answered by designing and testing an ABM system developed from the field of complex systems. This system focused on interactions between state health departments in the continental United States, and their corresponding local health departments. This was intended to demonstrate and explore how a novel technology or innovation is spread throughout the system in a border-conscious network or a border-agnostic network.
+This question was answered by designing and testing an ABM system developed from the field of complex systems. 
+\par This system focused on interactions between state health departments in the continental United States, and their corresponding local health departments. This was intended to demonstrate and explore how a novel technology or innovation is spread throughout the system in a border-conscious network or a border-agnostic network.
 
 \section{Methods}
-\cite{borracci_agent-based_2018}\cite{orr_diffusion_2013}
+The theory of diffusion of innovations (DOI) assumes that the stimulus (the thing being spread—in this case, an innovation) is inherently good. It therefore focuses on the network of agents to explain how the stimulus will spread. This network of agents has two main components. The first is the network itself—how the various agents are connected. Each agent will have bidirectional edges which lead to other agents. The second is the behavior of each agent. In a self-organizing system, the mathematical model of each agent will be identical. However, differences in behavior will arise from differences in the inputs to each agent. The value of each input can be randomly determined or set by an organizer. Ideally, the latter type will be extremely rare in order to preserve the self-organization of the model.
+
+In this study, the aim is to compare the behavior of the model under two different network types. Therefore, two types of trials will be run, both using the same agent model, but each using a different network. Given the goal of studying the effect of borders on DOI among health departments, the first network type is a boundary-conscious network and the second network type is a boundary-agnostic network. Table \ref{tab:Connections} shows that the primary difference between the two network types is how inter-local links are able to form. 
+\begin{table}[h!]
+    \caption{Network Connection Differences}
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+        \textbf{Link Type} & \textbf{Border-Conscious} & \textbf{Border-Agnostic} \\
+        \hline
+State to state	& May cross borders	& May cross borders \\
+\hline
+State to local	&May not cross borders	&May not cross borders \\
+\hline
+Local to local	&May not cross borders	&May cross borders \\
+\hline
+    \end{tabular}
+
+    \label{tab:Connections}
+\end{table}
+
 \subsection{Model Design}
 The ABM healthcare network was designed to be a comparison tool for the real-life (continental) United States health department system. However, there were significant simplifications and assumptions made for computational ease and diffusion of innovation modeling simplicity; these are discussed in detail in the assumptions section in the conclusion.
 \par The model environment can be defined as a network of agents operating on a 2D spatial representation of the US. This was accomplished by pulling cartographic boundary files from the US Census Bureau and converting them to a GeoJSON file via the open-source software QGIS.  The model’s graphical user interface (GUI) takes input from the user as shown below in Table~\ref{tab:model-param}.
-\begin{table}[!htbp]\centering
+\begin{table}[h!]\centering
 \ra{1.3}
 \caption{User-set Parameter Values in the GUI for the model}
 \begin{tabular}{@{}lr@{}}
 \toprule
 Parameter &  Values\\
 \midrule
-Number of Agents & $2$--$500$\\
+Number of Agents & $2$--$3000$\\
 Number of States & $1$--$48$\\
 Connection Quota & $1$--$500$\\
 Distance Threshold & $1$--$10$\\
@@ -49,11 +76,108 @@ Random Seed & $0$--$1000$\\
 \end{tabular}
 \label{tab:model-param}
 \end{table}
+\par Upon an instance of the model running, the zmodel will select the number of states specified starting with those that adjourn Kentucky (the best state). The state grouping will always be such that each state adds to the overall land mass in the GeoJSON file. For each state, a central state agent is created. This state agent is placed relatively centrally in polygon with coordinates calculated as follows in Equation \ref{eq:x_state}:
+\begin{equation}
+x_{\text{state}} = \text{center}_{\text{polygon}} + \eta,
+\qquad \eta \sim \mathrm{Uniform}(-0.75,\,0.75)
+\label{eq:x_state}
+\end{equation}
+From there, for every agent requested, a state is randomly selected, and a local health department agent is created. The local agent(s) have completely uniformly random coordinates within their respective states as shown in Equation \ref{eq:poly}.
+\begin{equation}
+\mathbf{x}_{\text{local}} \sim \mathrm{Uniform}(\text{Polygon}), 
+\qquad\text{Polygon} \subset \mathbb{R}^2,
+\label{eq:poly}
+\end{equation}
+After, a seed agent is randomly selected either from local agents or state agents depending on user selection.
+
+The network connecting these nodes is defined by the user input of “Border-Conscious” or “Border-Agnostic”. To describe mathematically,
+let \(G=(V,E)\) be an undirected graph with node set
+\[
+V = S \cup L,
+\]
+where \(S\) and \(L\) denote state and local agents, respectively.  
+Each agent \(v \in V\) is associated with a state identifier (sid)
+\[
+\mathrm{sid}: V \to \mathcal{S},
+\]
+and state adjacency is defined by
+\[
+s_i \sim s_j \iff \mathrm{sid}(s_i) \text{ and } \mathrm{sid}(s_j) \text{ share a boundary}.
+\]
+
+State--state and state--local edges are common to both networks:
+\[
+E_{SS} = \{\{s_1,s_2\} \mid s_1\neq s_2,\ s_1,s_2\in S,\ \mathrm{sid}(s_1)\sim\mathrm{sid}(s_2)\},
+\]
+\[
+E_{SL} = \{\{s,l\} \mid s\in S,\ l\in L,\ \mathrm{sid}(s)=\mathrm{sid}(l)\}.
+\]
+
+Each local agent \(l\in L\) satisfies the connection number constraint
+\[
+\deg_L(l) \le N_{\mathrm{connections}}.
+\]
+
+\begin{algorithm}
+\caption{Network Creation (Boundary-Conscious or Boundary-Agnostic)}
+\label{alg:network}
+\begin{algorithmic}[1]
+
+\Require Sets $S$, $L$; state polygons $\{P_s\}$; positions $\mathrm{pos}(v)$; 
+maximum degree $N_{\mathrm{connections}}$; user choice $\mathsf{Mode} \in \{\text{Boundary-Conscious},\text{Boundary-Agnostic}\}$; distance threshold $D_{\mathrm{thresh}}$ (Boundary-Agnostic only)
+\Ensure Edge set $E$ for graph $G=(V,E)$ with $V=S\cup L$
+\State $E \gets \emptyset$
+\Statex \textbf{(1) State--State edges}
+\ForAll{$s_i, s_j \in S$ with $s_i \neq s_j$}
+    \If{$P_{\mathrm{sid}(s_i)}$ touches $P_{\mathrm{sid}(s_j)}$}
+        \State $E \gets E \cup \{\{s_i,s_j\}\}$
+    \EndIf
+\EndFor
+
+\Statex \textbf{(2) State--Local edges}
+\ForAll{$s \in S$}
+    \ForAll{$l \in L$}
+        \If{$\mathrm{sid}(s) = \mathrm{sid}(l)$}
+            \State $E \gets E \cup \{\{s,l\}\}$
+        \EndIf
+    \EndFor
+\EndFor
+
+\Statex \textbf{(3) Local--Local edges (mode-dependent)}
+\If{$\mathsf{Mode} = \text{BC}$}   \Comment{Boundary-Conscious}
+    \ForAll{states $u \in \mathcal{S}$}
+        \State $L_u \gets \{l \in L \mid \mathrm{sid}(l)=u\}$
+        \ForAll{$l_1, l_2 \in L_u$ with $l_1 \neq l_2$}
+            \If{$\deg_L(l_1) < N_{\mathrm{connections}}$ and $\deg_L(l_2) < N_{\mathrm{connections}}$}
+                \State $E \gets E \cup \{\{l_1,l_2\}\}$
+            \EndIf
+        \EndFor
+    \EndFor
+\ElsIf{$\mathsf{Mode} = \text{BA}$} \Comment{Boundary-Agnostic}
+    \ForAll{$l_1, l_2 \in L$ with $l_1 \neq l_2$}
+        \State $d \gets \|\mathrm{pos}(l_1) - \mathrm{pos}(l_2)\|_2$
+        \If{$d \le D_{\mathrm{thresh}}$}
+            \If{$\deg_L(l_1) < N_{\mathrm{connections}}$ and $\deg_L(l_2) < N_{\mathrm{connections}}$}
+                \State $E \gets E \cup \{\{l_1,l_2\}\}$
+            \EndIf
+        \EndIf
+    \EndFor
+\EndIf
+
+\end{algorithmic}
+\end{algorithm}
+
 
 
 \subsection{Agent Design}
-
 \section{Results}
+\subsection{Roger's Profile Analysis}
 \section{Conclusion}
+\subsection{Assumptions}
+The ABM healthcare network had many simplifications and assumptions made for computational ease and diffusion of innovation simplicity. For example, the federal government was not considered in the network. Although the federal government does care for the nation’s health, they primarily focus on providing contracts and research grants to states for health innovations \cite{health_summary_1988}. Thus, the federal departments are not typically the start of a natural innovation and would require a different network to simulate the numerous federal government interactions and implications \cite{health_summary_1988}.  There are 55 state health agencies however; the US territories, Washington D.C, Alaska, and Hawaii were not considered because of modeling ease. Indigenous tribes and tribal health organizations were also not considered unfortunately due to the lack of information on communication channels with the state health departments. According to the Summary of Public Health Systems in the United States, there are about 3,000 local health departments in the US, ranging from none in Rhode Island, Vermont, and Delaware, to 159 in Georgia. Additionally, the relationship between local and state departments is not consistent \cite{health_summary_1988}. For modeling simplicity, the number of health departments per state was evenly distributed, and the relationship between state and local departments is normalized. Although the model can hold thousands of agents, the US GeoJSON file makes viewing more than 500 states particularly in the small states, very challenging.
+
+
+Future directions could include, adding more logic to give nodes significance and power (federal or state powers).
+
 \printbibliography
 \end{document}
