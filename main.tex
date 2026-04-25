@@ -4,7 +4,6 @@
 \usepackage{booktabs} %table formattingu
 \usepackage{amsmath}
 \usepackage{amsfonts}  % for my equations
-
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}} % table formatting
@@ -78,13 +77,13 @@ Random Seed & $0$--$1000$\\
 \end{table}
 \par Upon an instance of the model running, the zmodel will select the number of states specified starting with those that adjourn Kentucky (the best state). The state grouping will always be such that each state adds to the overall land mass in the GeoJSON file. For each state, a central state agent is created. This state agent is placed relatively centrally in polygon with coordinates calculated as follows in Equation \ref{eq:x_state}:
 \begin{equation}
-x_{\text{state}} = \text{center}_{\text{polygon}} + \eta,
+state_{\text{pos}} = \text{center}_{\text{polygon}} + \eta,
 \qquad \eta \sim \mathrm{Uniform}(-0.75,\,0.75)
 \label{eq:x_state}
 \end{equation}
-From there, for every agent requested, a state is randomly selected, and a local health department agent is created. The local agent(s) have completely uniformly random coordinates within their respective states as shown in Equation \ref{eq:poly}.
+From there, for every local agent requested, a state is randomly selected and a local health department agent is created. The local agent(s) have completely uniformly random coordinates within their respective states as shown in Equation \ref{eq:poly}.
 \begin{equation}
-\mathbf{x}_{\text{local}} \sim \mathrm{Uniform}(\text{Polygon}), 
+\mathbf{local}_{\text{pos}} \sim \mathrm{Uniform}(\text{Polygon}), 
 \qquad\text{Polygon} \subset \mathbb{R}^2,
 \label{eq:poly}
 \end{equation}
@@ -100,65 +99,54 @@ Each agent \(v \in V\) is associated with a state identifier (sid)
 \[
 \mathrm{sid}: V \to \mathcal{S},
 \]
-and state adjacency is defined by
-\[
-s_i \sim s_j \iff \mathrm{sid}(s_i) \text{ and } \mathrm{sid}(s_j) \text{ share a boundary}.
-\]
-
-State--state and state--local edges are common to both networks:
-\[
-E_{SS} = \{\{s_1,s_2\} \mid s_1\neq s_2,\ s_1,s_2\in S,\ \mathrm{sid}(s_1)\sim\mathrm{sid}(s_2)\},
-\]
-\[
-E_{SL} = \{\{s,l\} \mid s\in S,\ l\in L,\ \mathrm{sid}(s)=\mathrm{sid}(l)\}.
-\]
 
 Each local agent \(l\in L\) satisfies the connection number constraint
 \[
 \deg_L(l) \le N_{\mathrm{connections}}.
 \]
+The network can then begin connecting nodes $V$ by forming $E$ as seen in Algorithm \ref{alg:network}.
 
-\begin{algorithm}
+\begin{algorithm}[h!]
 \caption{Network Creation (Boundary-Conscious or Boundary-Agnostic)}
 \label{alg:network}
 \begin{algorithmic}[1]
 
-\Require Sets $S$, $L$; state polygons $\{P_s\}$; positions $\mathrm{pos}(v)$; 
-maximum degree $N_{\mathrm{connections}}$; user choice $\mathsf{Mode} \in \{\text{Boundary-Conscious},\text{Boundary-Agnostic}\}$; distance threshold $D_{\mathrm{thresh}}$ (Boundary-Agnostic only)
-\Ensure Edge set $E$ for graph $G=(V,E)$ with $V=S\cup L$
-\State $E \gets \emptyset$
-\Statex \textbf{(1) State--State edges}
-\ForAll{$s_i, s_j \in S$ with $s_i \neq s_j$}
-    \If{$P_{\mathrm{sid}(s_i)}$ touches $P_{\mathrm{sid}(s_j)}$}
-        \State $E \gets E \cup \{\{s_i,s_j\}\}$
+\Require $S$, $L$; polygons $\{P_s\}$; positions $\mathrm{pos}(v)$; 
+maximum degree $N_{\mathrm{connections}}$; $\mathsf{Mode} \in \{\text{Boundary-Conscious},\text{Boundary-Agnostic}\}$; distance threshold $D_{\mathrm{thresh}}$ (Boundary-Agnostic only)
+\Ensure Begin with graph $G=(V,E)$ with $V=S\cup L$
+\State Begin with  $V$ fully unconnected nodes
+\Statex \textbf{State--State edges}
+\ForAll{$state_i, state_j \in S$ with $state_i \neq state_j$}
+    \If{$Polygon_{\mathrm{sid}(state_i)}$ touches $Polygon_{\mathrm{sid}(state_j)}$}
+        \State Form $Edge$ between $state_i$ and $state_j$
     \EndIf
 \EndFor
 
-\Statex \textbf{(2) State--Local edges}
-\ForAll{$s \in S$}
-    \ForAll{$l \in L$}
-        \If{$\mathrm{sid}(s) = \mathrm{sid}(l)$}
-            \State $E \gets E \cup \{\{s,l\}\}$
+\Statex \textbf{State--Local edges}
+\ForAll{$state \in S$}
+    \ForAll{$local \in L$}
+        \If{$local$ is in $state$}
+            \State Form $Edge$ between $state$ and $local$
         \EndIf
     \EndFor
 \EndFor
 
-\Statex \textbf{(3) Local--Local edges (mode-dependent)}
-\If{$\mathsf{Mode} = \text{BC}$}   \Comment{Boundary-Conscious}
-    \ForAll{states $u \in \mathcal{S}$}
-        \State $L_u \gets \{l \in L \mid \mathrm{sid}(l)=u\}$
-        \ForAll{$l_1, l_2 \in L_u$ with $l_1 \neq l_2$}
-            \If{$\deg_L(l_1) < N_{\mathrm{connections}}$ and $\deg_L(l_2) < N_{\mathrm{connections}}$}
-                \State $E \gets E \cup \{\{l_1,l_2\}\}$
+\Statex \textbf{(Local--Local edges (mode-dependent)}
+\If{$\mathsf{Mode} = \text{Boundary Conscious}$}  
+    \ForAll{states $state \in \mathcal{S}$}
+        \State Get all $Local$ in $state$
+        \ForAll{$local_1, local_2 \in Local$ with $local_1 \neq local_2$}
+            \If{$Edges(local_1) < N_{\mathrm{connections}}$ and $Edges(local_2) < N_{\mathrm{connections}}$}
+                \State Form $Edge$ between $local_1$ and $local_2$
             \EndIf
         \EndFor
     \EndFor
-\ElsIf{$\mathsf{Mode} = \text{BA}$} \Comment{Boundary-Agnostic}
-    \ForAll{$l_1, l_2 \in L$ with $l_1 \neq l_2$}
-        \State $d \gets \|\mathrm{pos}(l_1) - \mathrm{pos}(l_2)\|_2$
+\ElsIf{$\mathsf{Mode} = \text{Boundary-Agnostic}$} 
+    \ForAll{$local_1, local_2 \in Local$ with $local_1 \neq local_2$}
+        \State $d = \|\mathrm{pos}(local_1) - \mathrm{pos}(local_2)\|^2$
         \If{$d \le D_{\mathrm{thresh}}$}
-            \If{$\deg_L(l_1) < N_{\mathrm{connections}}$ and $\deg_L(l_2) < N_{\mathrm{connections}}$}
-                \State $E \gets E \cup \{\{l_1,l_2\}\}$
+            \If{$Edges(local_1) < N_{\mathrm{connections}}$ and $Edges(local_2) < N_{\mathrm{connections}}$}
+                \State Form $Edge$ between $local_1$ and $local_2$
             \EndIf
         \EndIf
     \EndFor
@@ -179,5 +167,13 @@ The ABM healthcare network had many simplifications and assumptions made for com
 
 Future directions could include, adding more logic to give nodes significance and power (federal or state powers).
 
+\section*{Author Notes}
+\textbf{Sydney Corum, Anagh Mishra, and Seth Tumlin have all contributed significantly to this project.}
+\\
+Usage of Google Colab’s built-in Gemini AI tool and Microsoft Copilot were used for some of the software development and LaTeX formating code. 
+
+\appendix
+\textbf{Check out source code and repository here:} \url{https://github.com/Anagh19/Complex-Systems-Project}
 \printbibliography
+
 \end{document}
