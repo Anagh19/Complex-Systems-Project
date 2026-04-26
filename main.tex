@@ -1,4 +1,6 @@
-\documentclass[11pt, letterpaper]{IEEEtran}
+% \documentclass[11pt, letterpaper]{IEEEtran}
+\documentclass[12pt]{article}
+\usepackage[letterpaper, total={7.5in, 10in}]{geometry}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{biblatex} % For my references
 \usepackage{booktabs} %table formattingu
@@ -6,6 +8,11 @@
 \usepackage{amsfonts}  % for my equations
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{wrapfig}
+\usepackage{caption}
+\usepackage{subfigure}
+\usepackage{subcaption}
+\usepackage[export]{adjustbox}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}} % table formatting
 \addbibresource{references.bib}
 \title{The Effect of Network Organization on Diffusion of Innovation in the Healthcare Environment}
@@ -15,8 +22,10 @@
 \begin{document}
 
 \maketitle
-\begin{abstract} 
+\begin{abstract}
+    This study uses an agent-based model (ABM) to examine how network structure affects innovation diffusion across U.S. public health departments. Drawing on Rogers's Diffusion of Innovations framework, we compare a boundary-conscious network—where local health departments connect only within state borders—against a boundary-agnostic network that permits cross-border connections. Simulations varying agent density, connection quota, and distance threshold consistently show that boundary-agnostic networks achieve faster, more complete adoption and better approximate Rogers's ideal adopter distribution. These findings suggest that relaxing jurisdictional boundaries in public health networks could significantly accelerate the spread of beneficial innovations.
 \end{abstract}
+
 \section{Introduction}
 \par 
 Understanding how new innovations, whether products or technological concepts, spread is critical, as diffusion models can help explain why some ideas successfully reach the target population, whereas others remain stagnant. Everett Rogers’s revolutionary book, Diffusion of Innovations, first published in 1962 was the catalyst for a burst of excitement in the diffusion studies field in complex systems \cite{rogers_diffusion_1983}. Rogers seeks to understand how different innovations spread through a system over time, networks, and social systems. 
@@ -33,7 +42,9 @@ This question was answered by designing and testing an ABM system developed from
 \par This system focused on interactions between state health departments in the continental United States, and their corresponding local health departments. This was intended to demonstrate and explore how a novel technology or innovation is spread throughout the system in a border-conscious network or a border-agnostic network.
 
 \section{Methods}
-The theory of diffusion of innovations (DOI) assumes that the stimulus (the thing being spread—in this case, an innovation) is inherently good. It therefore focuses on the network of agents to explain how the stimulus will spread. This network of agents has two main components. The first is the network itself—how the various agents are connected. Each agent will have bidirectional edges which lead to other agents. The second is the behavior of each agent. In a self-organizing system, the mathematical model of each agent will be identical. However, differences in behavior will arise from differences in the inputs to each agent. The value of each input can be randomly determined or set by an organizer. Ideally, the latter type will be extremely rare in order to preserve the self-organization of the model.
+Although the goal of the model is to answer a specific question, the model itself will be a simplified and abstracted version of real-life dynamics. The results of the simulations will not necessarily be expected in a real-life situation. However, the general trends and comparisons between simulations with different inputs will be useful in describing the broad effects of certain situations in real life.
+
+The theory of diffusion of innovations considers both the stimulus (the innovation being spread) and the network of agents which spread the stimulus. In this study, the main goal is to analyze the effect of the network, assuming that the stimulus is inherently good. This network of agents has two main components. The first is the network itself—how the various agents are connected. Each agent will have bidirectional edges which lead to other agents. The second is the behavior of each agent. In a self-organizing system, the mathematical model of each agent will be identical. However, differences in behavior will arise from differences in the inputs to each agent. The value of each input can be randomly determined or set by an organizer. Ideally, the latter type will be extremely rare in order to preserve the self-organization of the model.
 
 In this study, the aim is to compare the behavior of the model under two different network types. Therefore, two types of trials will be run, both using the same agent model, but each using a different network. Given the goal of studying the effect of borders on DOI among health departments, the first network type is a boundary-conscious network and the second network type is a boundary-agnostic network. Table \ref{tab:Connections} shows that the primary difference between the two network types is how inter-local links are able to form. 
 \begin{table}[h!]
@@ -89,7 +100,8 @@ From there, for every local agent requested, a state is randomly selected and a 
 \end{equation}
 After, a seed agent is randomly selected either from local agents or state agents depending on user selection.
 
-The network connecting these nodes is defined by the user input of “Border-Conscious” or “Border-Agnostic”. To describe mathematically,
+The network connecting these nodes is defined by the user input of “Border-Conscious” or “Border-Agnostic”.
+To describe mathematically,
 let \(G=(V,E)\) be an undirected graph with node set
 \[
 V = S \cup L,
@@ -104,7 +116,7 @@ Each local agent \(l\in L\) satisfies the connection number constraint
 \[
 \deg_L(l) \le N_{\mathrm{connections}}.
 \]
-The network can then begin connecting nodes $V$ by forming $E$ as seen in Algorithm \ref{alg:network}.
+The network can then begin connecting nodes $V$ by forming $E$ as seen in Algorithm \ref{alg:network}. Fig. \ref{fig:conciousmap} and Fig. \ref{fig:agnosticmap} show examples of small networks connected with boundary-conscious or boundary-agnostic respectively. 
 
 \begin{algorithm}[h!]
 \caption{Network Creation (Boundary-Conscious or Boundary-Agnostic)}
@@ -155,25 +167,184 @@ maximum degree $N_{\mathrm{connections}}$; $\mathsf{Mode} \in \{\text{Boundary-C
 \end{algorithmic}
 \end{algorithm}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{concious.png}
+    \caption[short]{Example of Boundary-Conscious Initial Network}
+    \label{fig:conciousmap}
+\end{figure}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{agnostic.png}
+    \caption[short]{Example of Boundary-Agnostic Initial Network}
+    \label{fig:agnosticmap}
+\end{figure}
 
 \subsection{Agent Design}
-\section{Results}
-\subsection{Roger's Profile Analysis}
-\section{Conclusion}
-\subsection{Assumptions}
-The ABM healthcare network had many simplifications and assumptions made for computational ease and diffusion of innovation simplicity. For example, the federal government was not considered in the network. Although the federal government does care for the nation’s health, they primarily focus on providing contracts and research grants to states for health innovations \cite{health_summary_1988}. Thus, the federal departments are not typically the start of a natural innovation and would require a different network to simulate the numerous federal government interactions and implications \cite{health_summary_1988}.  There are 55 state health agencies however; the US territories, Washington D.C, Alaska, and Hawaii were not considered because of modeling ease. Indigenous tribes and tribal health organizations were also not considered unfortunately due to the lack of information on communication channels with the state health departments. According to the Summary of Public Health Systems in the United States, there are about 3,000 local health departments in the US, ranging from none in Rhode Island, Vermont, and Delaware, to 159 in Georgia. Additionally, the relationship between local and state departments is not consistent \cite{health_summary_1988}. For modeling simplicity, the number of health departments per state was evenly distributed, and the relationship between state and local departments is normalized. Although the model can hold thousands of agents, the US GeoJSON file makes viewing more than 500 states particularly in the small states, very challenging.
+The behavior of individual health departments is dictated by the Health\_Agent class. This class extends the base agent functionality provided by Mesa’s framework. The health agent acts as a node within the larger network, representing either a local health department or a central state authority.
+Upon initialization, each agent is assigned a set of static structural attributes: a unique identifier, an agent type designation (local or state), a spatial position vector, and a reference ID linking it to its respective state polygon. To track the diffusion of the innovation, dynamic attributes are also initialized, including a boolean adopted status and an adoption\_step integer to record the exact temporal moment the agent accepts the stimulus.
+To simulate the inherent variability in institutional readiness and human behavior, the DOI model avoids deterministic homogeneity. Instead, each agent is assigned a static base\_profile score upon creation. This score represents the agent’s innate susceptibility to adopting new innovations. The value is generated from a Gaussian distribution with a mean of 0.5 and a standard deviation of 0.15. To ensure mathematical validity in later probability calculations, the value is clamped between bounds of 0.0 and 1.0.
 
+\begin{equation}
+    \mathrm{Base Profile}=\mathrm{Min}(\mathrm{Max}(\mathrm{Norm}(0.5,0.15),0.0),1.0)
+    \label{eq:x_state}
+\end{equation}
+
+The simulation advances through discrete time steps. Agents that have already adopted the innovation remain in the adopted state indefinitely. For an agent that is susceptible, its primary mechanism for adoption relies on peer influence derived from the network topology. The agent queries its local network edges to identify its direct neighbors and calculates a neighbor\_adoption\_ratio, defined as the number of adopted neighbors divided by the total number of connected neighbors.
+The final decision for an agent to adopt the innovation is calculated dynamically at each time step. The overall probability of adoption, Padopt , is defined as the product of the model's Global Scale Factor (GSF), the calculated neighbor ratio, and the agent's intrinsic profile, bounded at a maximum of 100%.
+
+\begin{equation}
+    P_\mathrm{adopt}=\mathrm{Min}(\mathrm{GSF}\times\mathrm{Ratio}\times\mathrm{Base Profile})
+    \label{eq:x_state}
+\end{equation}
+
+The model generates a random float from a uniform distribution spanning 0 to 1. If this random float falls below the calculated Padopt threshold, the agent’s status switches to True representing adoption.
+
+
+\section{Results}
+
+Three tests were devised to test the methodology and accuracy of the system, density test, connection quota test, and distance varying test. Each of these parameters in the model have a direct impact on how the innovation spreads. Thus, adoption percentage per model step was a useful comparison tool between tests.
+
+Roger’s profile of an agent is also a useful way to categorize and analyze adoption data. According to Rogers, each agent can be categorized as a different type of adopter based on innovativeness. These agents are innovators, early adopters, early majority, late majority, and laggards. Innovators hop on the innovation early and are defined at the first 2.5\% of agents to adopt. Early adopters are the respectable next group with 13.5\%, with early deliberate majority and late skeptical majority making up 34\% each. Traditional Laggards, as the slow agents that are last to adopt defined as the last 16\%. In Figure FIGURE, from Roger’s book Diffusion of Innovations, the curve of agent profiles is described as a normal curve with adopter categories following statistical rules in regards in the data \cite[ROGERS]. The agents were assigned a Roger’s profile category based on when they adopted compared to the rest of the agents. When comparing model result categories to ideal Roger’s profile categories, the accuracy of the model is tested.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{roger.png}
+    \caption[short]{Roger's Adopter categorization based on innovativeness (see text for figure source)}
+    \label{fig:roger}
+\end{figure}
+
+The density of a population is important to assess as the density affects how innovation spreads in different ways. Since agents are distributed uniformly across the polygons, the agent density will also be uniform as number of agents increase. The test cases run as seen below in TABLE, clamp the maximum number of connections so that agents cannot take advantage of the density.
+
+\begin{table}[h]
+    \caption{Density test conditions}
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    Boundaries & Total Agents & Max Connections & Number of States & Dist. Threshold & Global Scaling \\
+    \hline
+    Aware & 30 & 6 & 5 & 3 & 0.5 \\
+    \hline
+    Aware & 300 & 6 & 5 & 3 & 0.5 \\
+    \hline
+    Agnostic & 30 & 6 & 5 & 3 & 0.5 \\
+    \hline
+    Agnostic & 300 & 6 & 5 & 3 & 0.5 \\
+    \hline
+    \end{tabular}
+    \label{tab:density}
+\end{table}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{density.png}
+    \caption[short]{Adoption Percentage / Per Step comparison for Network Density Analysis}
+    \label{fig:density}
+\end{figure}
+
+As seen in FIGURE (3?), on the left, for a boundary-conscious network the average model achieves 100\% adoption at a much earlier step when there are less agents. The boundary-agnostic networks achieve a similar result with less agents converging faster, although not in all cases. On average, the boundary-agnostic models outperform the boundary conscious models and reach 100\% adoption at an earlier step. This is a reasonable result given how agent density negatively affects adoption when maximum number of connections are fixed.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{rogerdensity.png}
+    \caption[short]{Roger's Curve Analysis for Density Test Under four states}
+    \label{fig:rogerdensity}
+\end{figure}
+
+The Roger’s profile curve analysis for these tests reveal much information about how the innovation diffused. As seen in the two boundary-conscious tests in FIGURE(5?), the agents do not follow the ideal profile curve and appear to adopt in batches. However, in the boundary-agnostic model tests, the agents profiles do approximately follow the ideal curve and have more typical adoption patterns. 
+
+The number of connections an agent is allowed to have is another factor that is very important to the diffusion of innovation in a system. Thus for this test, the connection quota is very important as the connection quota defines the network connectivity. 
+
+\begin{table}[h]
+    \caption{Inertia test conditions}
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    Boundaries & Total Agents & Max Connections & Number of States & Dist. Threshold & Global Scaling \\
+    \hline
+    Aware & 300 & 3 & 5 & 3 & 0.5 \\
+    \hline
+    Aware & 300 & 6 & 5 & 3 & 0.5 \\
+    \hline
+    Agnostic & 300 & 3 & 5 & 3 & 0.5 \\
+    \hline
+    Agnostic & 300 & 6 & 5 & 3 & 0.5 \\
+    \hline
+    \end{tabular}
+    \label{tab:inertia}
+\end{table}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{inertia.png}
+    \caption[short]{Adoption Percentage / Per Step comparison for Network Inertia Analysis}
+    \label{fig:inertia}
+\end{figure}
+
+As seen in test results in FIGURE (6?), the connection quota greatly affected the results of the boundary-agnostic model results, with the higher connections model converging with much fewer steps on average than the three-connection max model. However, in the boundary-conscious model, the connection quota changing did not seem to impact the performance or the amount of steps it took to converge. Intuitively, this result makes sense, due to the highly structured and isolated boundaries, the boundary-conscious network does not have as much of an opportunity to take advantage of more connections.
+
+In Roger’s profile analysis, the boundary-conscious models exhibit grouped adoption again and do not follow the Roger profile ideal curve. The boundary-agnostic model does follow more of Roger’s ideal curve as seen in FIGURE
+
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{rogerinertia.png}
+    \caption[short]{Roger's Curve Analysis for Inertia Test Under four states}
+    \label{fig:rogerinertia}
+\end{figure}
+
+For the boundary-agnostic model, the distance threshold caps how far an agent can look to connect to other agents nearby. Thus expanding or shrinking the distance threshold can greatly affect the efficiency of the network. The test cases below change the distance threshold for a fixed set of boundary aware models.
+
+\begin{table}[!h]
+    \caption{Distance test conditions}
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    Boundaries & Total Agents & Max Connections & Number of States & Dist. Threshold & Global Scaling \\
+    \hline
+    Aware & 300 & 6 & 5 & 2 & 0.5 \\
+    \hline
+    Aware & 300 & 6 & 5 & 3 & 0.5 \\
+    \hline
+    Aware & 300 & 6 & 5 & 4 & 0.5 \\
+    \hline
+    \end{tabular}
+    \label{tab:distance}
+\end{table}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{distance.png}
+    \caption[short]{Adoption Percentage / Per Step comparison for Network Distance Analysis}
+    \label{fig:distance}
+\end{figure}
+
+As seen in Fig. \ref{fig:distance}, the three results all merge quickly and closely to total adoption. Interestingly, the distance threshold of three seems to converge the quickest followed by five and one. This could be a result of the high density of agents in the model or simply that for the model constructed, three other connections is the ideal number of connections. This result is similar to a small world network when the distance threshold is lower\cite{watts_collective_1998}.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{rogerdistance.png}
+    \caption[short]{Roger's Curve Analysis for Distance Test Under three states}
+    \label{fig:rogerdistance}
+\end{figure}
+
+As seen in Fig. \ref{fig:rogerdensity}, all the models follow the ideal Roger's profile distribution with the distance thresholds of three and five performing the best. 
+
+\section{Conclusion}
+
+\subsection{Assumptions}
+The ABM healthcare network had many simplifications and assumptions made for computational ease and diffusion of innovation simplicity. For example, the federal government was not considered in the network. Although the federal government does care for the nation’s health, they primarily focus on providing contracts and research grants to states for health innovations and would require a different network to simulate the numerous interactions and implications \cite{health_summary_1988}. Additionally, the relationship between local and state departments is not consistent \cite{health_summary_1988}. For modeling simplicity, the number of health departments per state was evenly distributed, and the relationship between state and local departments is normalized. 
 
 Future directions could include, adding more logic to give nodes significance and power (federal or state powers).
 
 \section*{Author Notes}
 \textbf{Sydney Corum, Anagh Mishra, and Seth Tumlin have all contributed significantly to this project.}
 \\
-Usage of Google Colab’s built-in Gemini AI tool and Microsoft Copilot were used for some of the software development and LaTeX formating code. 
+Usage of Google Colab’s built-in Gemini AI tool, Microsoft Copilot, and Claude Sonnet 4.6 were used for some of the software development and \LaTeX. 
 
-\appendix
-\textbf{Check out source code and repository here:} \url{https://github.com/Anagh19/Complex-Systems-Project}
+\textbf{Check out source code and repository here:}\\ 
+\centering
+\url{https://github.com/Anagh19/Complex-Systems-Project}
 \printbibliography
-
 \end{document}
