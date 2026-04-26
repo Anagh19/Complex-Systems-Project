@@ -206,7 +206,7 @@ The model generates a random float from a uniform distribution spanning 0 to 1. 
 
 Three tests were devised to test the methodology and accuracy of the system, density test, connection quota test, and distance varying test. Each of these parameters in the model have a direct impact on how the innovation spreads. Thus, adoption percentage per model step was a useful comparison tool between tests.
 
-Roger’s profile of an agent is also a useful way to categorize and analyze adoption data. According to Rogers, each agent can be categorized as a different type of adopter based on innovativeness. These agents are innovators, early adopters, early majority, late majority, and laggards. Innovators hop on the innovation early and are defined at the first 2.5\% of agents to adopt. Early adopters are the respectable next group with 13.5\%, with early deliberate majority and late skeptical majority making up 34\% each. Traditional Laggards, as the slow agents that are last to adopt defined as the last 16\%. In Figure FIGURE, from Roger’s book Diffusion of Innovations, the curve of agent profiles is described as a normal curve with adopter categories following statistical rules in regards in the data \cite[ROGERS]. The agents were assigned a Roger’s profile category based on when they adopted compared to the rest of the agents. When comparing model result categories to ideal Roger’s profile categories, the accuracy of the model is tested.
+Roger’s profile of an agent is also a useful way to categorize and analyze adoption data. According to Rogers, each agent can be categorized as a different type of adopter based on innovativeness. These agents are innovators, early adopters, early majority, late majority, and laggards. Innovators hop on the innovation early and are defined at the first 2.5\% of agents to adopt. Early adopters are the respectable next group with 13.5\%, with early deliberate majority and late skeptical majority making up 34\% each. Traditional Laggards, as the slow agents that are last to adopt defined as the last 16\%. In Fig. \ref{fig:roger}, from Roger’s book Diffusion of Innovations, the curve of agent profiles is described as a normal curve with adopter categories following statistical rules in regards in the data \cite{rogers_diffusion_1983}. The agents were assigned a Roger’s profile category based on when they adopted compared to the rest of the agents. When comparing model result categories to ideal Roger’s profile categories, the accuracy of the model is tested.
 
 \begin{figure}[h]
     \centering
@@ -215,7 +215,7 @@ Roger’s profile of an agent is also a useful way to categorize and analyze ado
     \label{fig:roger}
 \end{figure}
 
-The density of a population is important to assess as the density affects how innovation spreads in different ways. Since agents are distributed uniformly across the polygons, the agent density will also be uniform as number of agents increase. The test cases run as seen below in TABLE, clamp the maximum number of connections so that agents cannot take advantage of the density.
+The density of a population is important to assess as the density affects how innovation spreads in different ways. Since agents are distributed uniformly across the polygons, the agent density will also be uniform as number of agents increase. The test cases run as seen below in Table \ref{tab:density}, clamp the maximum number of connections so that agents cannot take advantage of the density.
 
 \begin{table}[h]
     \caption{Density test conditions}
@@ -243,7 +243,7 @@ The density of a population is important to assess as the density affects how in
     \label{fig:density}
 \end{figure}
 
-As seen in FIGURE (3?), on the left, for a boundary-conscious network the average model achieves 100\% adoption at a much earlier step when there are less agents. The boundary-agnostic networks achieve a similar result with less agents converging faster, although not in all cases. On average, the boundary-agnostic models outperform the boundary conscious models and reach 100\% adoption at an earlier step. This is a reasonable result given how agent density negatively affects adoption when maximum number of connections are fixed.
+As seen in Fig. \ref{fig:density}, for a boundary-conscious network the average model achieves 100\% adoption at a much earlier step when there are less agents. The boundary-agnostic networks achieve a similar result with less agents converging faster, although not in all cases. On average, the boundary-agnostic models outperform the boundary conscious models and reach 100\% adoption at an earlier step. This is a reasonable result given how agent density negatively affects adoption when maximum number of connections are fixed.
 
 \begin{figure}[h]
     \centering
@@ -252,9 +252,9 @@ As seen in FIGURE (3?), on the left, for a boundary-conscious network the averag
     \label{fig:rogerdensity}
 \end{figure}
 
-The Roger’s profile curve analysis for these tests reveal much information about how the innovation diffused. As seen in the two boundary-conscious tests in FIGURE(5?), the agents do not follow the ideal profile curve and appear to adopt in batches. However, in the boundary-agnostic model tests, the agents profiles do approximately follow the ideal curve and have more typical adoption patterns. 
+The Roger’s profile curve analysis for these tests reveal much information about how the innovation diffused. As seen in the two boundary-conscious tests in Fig. \ref{fig:rogerdensity}, the agents do not follow the ideal profile curve and appear to adopt in batches. However, in the boundary-agnostic model tests, the agents profiles do approximately follow the ideal curve and have more typical adoption patterns. 
 
-The number of connections an agent is allowed to have is another factor that is very important to the diffusion of innovation in a system. Thus for this test, the connection quota is very important as the connection quota defines the network connectivity. 
+The number of connections an agent is allowed to have is another factor that is very important to the diffusion of innovation in a system. Thus for this test, the connection quota is very important as the connection quota defines the network connectivity. Table \ref{tab:inertia} reflects the test cases run.
 
 \begin{table}[h]
     \caption{Inertia test conditions}
@@ -282,9 +282,9 @@ The number of connections an agent is allowed to have is another factor that is 
     \label{fig:inertia}
 \end{figure}
 
-As seen in test results in FIGURE (6?), the connection quota greatly affected the results of the boundary-agnostic model results, with the higher connections model converging with much fewer steps on average than the three-connection max model. However, in the boundary-conscious model, the connection quota changing did not seem to impact the performance or the amount of steps it took to converge. Intuitively, this result makes sense, due to the highly structured and isolated boundaries, the boundary-conscious network does not have as much of an opportunity to take advantage of more connections.
+As seen in test results in Fig. \ref{fig:inertia}, the connection quota greatly affected the results of the boundary-agnostic model results, with the higher connections model converging with much fewer steps on average than the three-connection max model. However, in the boundary-conscious model, the connection quota changing did not seem to impact the performance or the amount of steps it took to converge. Intuitively, this result makes sense, due to the highly structured and isolated boundaries, the boundary-conscious network does not have as much of an opportunity to take advantage of more connections.
 
-In Roger’s profile analysis, the boundary-conscious models exhibit grouped adoption again and do not follow the Roger profile ideal curve. The boundary-agnostic model does follow more of Roger’s ideal curve as seen in FIGURE
+In Roger’s profile analysis, the boundary-conscious models exhibit grouped adoption again and do not follow the Roger profile ideal curve. The boundary-agnostic model does follow more of Roger’s ideal curve as seen in Fig. \ref{fig:rogerinertia}
 
 
 \begin{figure}[!h]
@@ -294,7 +294,7 @@ In Roger’s profile analysis, the boundary-conscious models exhibit grouped ado
     \label{fig:rogerinertia}
 \end{figure}
 
-For the boundary-agnostic model, the distance threshold caps how far an agent can look to connect to other agents nearby. Thus expanding or shrinking the distance threshold can greatly affect the efficiency of the network. The test cases below change the distance threshold for a fixed set of boundary aware models.
+For the boundary-agnostic model, the distance threshold caps how far an agent can look to connect to other agents nearby. Thus expanding or shrinking the distance threshold can greatly affect the efficiency of the network. The test cases below in Table \ref{tab:distance} change the distance threshold for a fixed set of boundary aware models.
 
 \begin{table}[!h]
     \caption{Distance test conditions}
@@ -329,7 +329,7 @@ As seen in Fig. \ref{fig:distance}, the three results all merge quickly and clos
     \label{fig:rogerdistance}
 \end{figure}
 
-As seen in Fig. \ref{fig:rogerdensity}, all the models follow the ideal Roger's profile distribution with the distance thresholds of three and five performing the best. 
+As seen in Fig. \ref{fig:rogerdistance}, all the models follow the ideal Roger's profile distribution with the distance thresholds of three and five performing the best. 
 
 \section{Conclusion}
 
